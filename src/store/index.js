@@ -23,7 +23,11 @@ export default new Vuex.Store({
       state.events.push(event)
     }
   },
-  actions: {},
+  actions: {
+    createEvent({ context }, event) {
+      this.commit('ADD_EVENT', event)
+    }
+  },
   modules: {},
   getters: {
     // You can pass one getter to another such as `catLenth: (state, getters) => { return getters.otherFunction }`
