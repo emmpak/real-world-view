@@ -24,8 +24,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    createEvent({ context }, event) {
-      this.commit('ADD_EVENT', event)
+    createEvent({ commit }, event) {
+      EventService.postEvent(event)
+      commit('ADD_EVENT', event)
     }
   },
   modules: {},
