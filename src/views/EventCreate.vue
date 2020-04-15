@@ -10,15 +10,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-  // mapState returns an object of computed properties
+  // mapState/mapGetters returns an object of computed properties
   // You can use object spread operator to add additional local computed properties (...)
   computed: {
-    catLength() {
-      return this.$store.getters.catLength
-    },
+    ...mapGetters(['catLength']),
     ...mapState(['user', 'categories'])
   }
 }
