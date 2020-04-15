@@ -18,5 +18,11 @@ export default new Vuex.Store({
   },
   mutations: {},
   actions: {},
-  modules: {}
+  modules: {},
+  getters: {
+    // You can pass one getter to another such as `catLenth: (state, getters) => { return getters.otherFunction }`
+    catLength: state => {
+      return state.categories.length
+    }
+  }
 })
