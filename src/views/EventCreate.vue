@@ -6,14 +6,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  computed: {
-    userName() {
-      return this.$store.state.user.name
-    },
-    userId() {
-      return this.$store.state.user.id
-    }
-  }
+  computed: mapState({
+    userName: state => state.user.name,
+    userID: state => state.user.id,
+    // can use quotes instead of dot notation for top-level state properties
+    categories: 'categories'
+  })
 }
 </script>
