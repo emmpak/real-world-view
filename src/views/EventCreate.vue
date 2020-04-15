@@ -52,7 +52,7 @@
 import Datepicker from 'vuejs-datepicker'
 
 export default {
-  computed: {
+  components: {
     Datepicker
   },
   data() {
@@ -64,7 +64,7 @@ export default {
       // this is the same as `times: times`
       times,
       categories: this.$store.state.categories,
-      event: this.createFreshEventObject
+      event: this.createFreshEventObject()
     }
   },
   methods: {
@@ -72,6 +72,10 @@ export default {
       this.$store
         .dispatch('createEvent', this.event)
         .then(() => {
+          this.$router.push({
+            name: 'event-show',
+            params: { id: this.event.id }
+          })
           this.event = this.createFreshEventObject()
         })
         .catch(() => {
