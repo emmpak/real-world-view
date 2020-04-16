@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import EventService from '@/services/EventService.js'
+//use the user namespace; i.e. user.state
+import * as user from '@/store/modules/user.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    user
+  },
   state: {
-    user: { id: '123', name: 'Callan' },
     categories: [
       'sustainability',
       'nature',
@@ -65,7 +69,6 @@ export default new Vuex.Store({
       }
     }
   },
-  modules: {},
   getters: {
     // You can pass one getter to another such as `getEventById: (state, getters) => { return getters.otherFunction }`
     getEventById: state => id => {
