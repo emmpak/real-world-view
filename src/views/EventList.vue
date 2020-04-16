@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Events for {{ user.user.name }}</h1>
-    <EventCard v-for="event in events" :key="event.id" :event="event" />
+    <EventCard v-for="event in event.events" :key="event.id" :event="event" />
     <template v-if="page != 1">
       <router-link
         :to="{ name: 'event-list', query: { page: page - 1 } }"
@@ -28,7 +28,9 @@ export default {
     page() {
       return parseInt(this.$route.query.page)
     },
-    ...mapState(['events', 'user'])
+    // this is now refering to the modules namespaces
+    // to access the state in those modules, use the dot notation (i.e. event.event)
+    ...mapState(['event', 'user'])
   },
   created() {
     this.$store.dispatch('fetchEvents', {

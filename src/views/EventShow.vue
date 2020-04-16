@@ -14,9 +14,9 @@
     <p>{{ event.description }}</p>
     <h2>
       Attendees
-      <span class="badge -fill-gradient">{{
-        event.attendees ? event.attendees.length : 0
-      }}</span>
+      <span class="badge -fill-gradient">
+        {{ event.attendees ? event.attendees.length : 0 }}
+      </span>
     </h2>
     <ul class="list-group">
       <li
@@ -34,7 +34,9 @@ import { mapState } from 'vuex'
 
 export default {
   props: ['id'],
-  computed: mapState(['event']),
+  computed: mapState({
+    event: state => state.event.event
+  }),
   created() {
     this.$store.dispatch('fetchEvent', this.id)
   }
