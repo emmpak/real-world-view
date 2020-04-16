@@ -1,5 +1,8 @@
 import EventService from '@/services/EventService.js'
 
+//all mutations, actions and getters will be namespaced under `event`
+export const namespaced = true
+
 export const state = {
   events: [],
   event: {}
