@@ -16,7 +16,8 @@ export default new Vuex.Store({
       'food',
       'community'
     ],
-    events: []
+    events: [],
+    event: {}
   },
   mutations: {
     ADD_EVENT(state, event) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     SET_EVENTS(state, events) {
       state.events = events
+    },
+    SET_EVENT(state, event) {
+      state.event = event
     }
   },
   actions: {
@@ -32,7 +36,7 @@ export default new Vuex.Store({
         commit('ADD_EVENT', event)
       })
     },
-    // using ES2015 argument destructuring to pull out { perPage, page } .
+    //using ES2015 argument destructuring to pull out { perPage, page } .
     //This is because the second argument with both mutations and actions is effectively a payload.
     //The payload in both Actions and Mutations can be a single variable or a single object.
     fetchEvents({ commit }, { perPage, page }) {
@@ -41,7 +45,16 @@ export default new Vuex.Store({
           commit('SET_EVENTS', response.data)
         })
         .catch(error => {
-          console.log('Something went wrond:', error.message)
+          console.log('Something went wrong:', error.message)
+        })
+    },
+    fetchEvent({ commit }, id) {
+      EventService.getEvent(id)
+        .then(response => {
+          commit('SET_EVENT', response.data)
+        })
+        .catch(error => {
+          console.log('Something went wrong:', error.message)
         })
     }
   },
