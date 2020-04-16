@@ -48,21 +48,28 @@ export default new Vuex.Store({
           console.log('Something went wrong:', error.message)
         })
     },
-    fetchEvent({ commit }, id) {
-      EventService.getEvent(id)
-        .then(response => {
-          commit('SET_EVENT', response.data)
-        })
-        .catch(error => {
-          console.log('Something went wrong:', error.message)
-        })
+    //notice how we pass getters here
+    fetchEvent({ commit, getters }, id) {
+      var event = getters.getEventById(id)
+
+      if (event) {
+        commit('SET_EVENT', event)
+      } else {
+        EventService.getEvent(id)
+          .then(response => {
+            commit('SET_EVENT', response.data)
+          })
+          .catch(error => {
+            console.log('Something went wrong:', error.message)
+          })
+      }
     }
   },
   modules: {},
   getters: {
-    // You can pass one getter to another such as `catLenth: (state, getters) => { return getters.otherFunction }`
-    catLength: state => {
-      return state.categories.length
+    // You can pass one getter to another such as `getEventById: (state, getters) => { return getters.otherFunction }`
+    getEventById: state => id => {
+      return state.events.find(event => event.id === id)
     }
   }
 })
