@@ -32,8 +32,11 @@ export default new Vuex.Store({
         commit('ADD_EVENT', event)
       })
     },
-    fetchEvents({ commit }) {
-      EventService.getEvents()
+    // using ES2015 argument destructuring to pull out { perPage, page } .
+    //This is because the second argument with both mutations and actions is effectively a payload.
+    //The payload in both Actions and Mutations can be a single variable or a single object.
+    fetchEvents({ commit }, { perPage, page }) {
+      EventService.getEvents(perPage, page)
         .then(response => {
           commit('SET_EVENTS', response.data)
         })
