@@ -21,28 +21,44 @@ export const mutations = {
 }
 
 export const actions = {
-  createEvent({ commit, rootState }, event) {
+  createEvent({ commit, rootState, dispatch }, event) {
     //use rootState to access state in other modules
     console.log('User creating Event is ' + rootState.user.user.name)
 
     EventService.postEvent(event).then(() => {
       commit('ADD_EVENT', event)
-    })
+      const notification = {
+        type: 'success',
+        message: 'Your event has been created!'
+      }
+      dispatch('notification/add', notification, { root: true })
+    }).catch((error) => {
+        const notification = {
+          type: 'error',
+          message: 'There was a problem creating your event: ' + error.message
+        }
+        dispatch('notification/add', notification, { root: true })
+        throw error
+      }
   },
   //using ES2015 argument destructuring to pull out { perPage, page } .
   //This is because the second argument with both mutations and actions is effectively a payload.
   //The payload in both Actions and Mutations can be a single variable or a single object.
-  fetchEvents({ commit }, { perPage, page }) {
+  fetchEvents({ commit, dispatch }, { perPage, page }) {
     EventService.getEvents(perPage, page)
       .then(response => {
         commit('SET_EVENTS', response.data)
       })
       .catch(error => {
-        console.log('Something went wrong:', error.message)
+        const notification = {
+          type: 'error',
+          message: 'There was a problem fetching events: ' + error.message
+        }
+        dispatch('notification/add', notification, { root: true })
       })
   },
   //notice how we pass getters here
-  fetchEvent({ commit, getters }, id) {
+  fetchEvent({ commit, getters, dispatch }, id) {
     var event = getters.getEventById(id)
 
     if (event) {
@@ -53,7 +69,11 @@ export const actions = {
           commit('SET_EVENT', response.data)
         })
         .catch(error => {
-          console.log('Something went wrong:', error.message)
+          const notification = {
+            type: 'error',
+            message: 'There was a problem fetching event: ' + error.message
+          }
+          dispatch('notification/add', notification, { root: true })
         })
     }
   }
