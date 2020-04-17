@@ -21,7 +21,10 @@ export const mutations = {
 }
 
 export const actions = {
-  createEvent({ commit }, event) {
+  createEvent({ commit, rootState }, event) {
+    //use rootState to access state in other modules
+    console.log('User creating Event is ' + rootState.user.user.name)
+
     EventService.postEvent(event).then(() => {
       commit('ADD_EVENT', event)
     })
