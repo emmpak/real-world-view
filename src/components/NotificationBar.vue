@@ -12,9 +12,9 @@ export default {
       required: true
     }
   },
-  compiuted: {
+  computed: {
     notificationTypeClass() {
-      return '-text-${this.notification.type}'
+      return `-text-${this.notification.type}`
     }
   }
 }
