@@ -25,7 +25,9 @@ export const actions = {
     //use rootState to access state in other modules
     console.log('User creating Event is ' + rootState.user.user.name)
 
-    EventService.postEvent(event)
+    // note: return is needed so that other functions calling createEvent expect a promise?
+    // otherwise, the error will be uncaught because this function wil return undefined before the error is raised (asynchronous)
+    return EventService.postEvent(event)
       .then(() => {
         commit('ADD_EVENT', event)
         const notification = {
