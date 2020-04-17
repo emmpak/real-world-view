@@ -25,21 +25,23 @@ export const actions = {
     //use rootState to access state in other modules
     console.log('User creating Event is ' + rootState.user.user.name)
 
-    EventService.postEvent(event).then(() => {
-      commit('ADD_EVENT', event)
-      const notification = {
-        type: 'success',
-        message: 'Your event has been created!'
-      }
-      dispatch('notification/add', notification, { root: true })
-    }).catch((error) => {
+    EventService.postEvent(event)
+      .then(() => {
+        commit('ADD_EVENT', event)
+        const notification = {
+          type: 'success',
+          message: 'Your event has been created!'
+        }
+        dispatch('notification/add', notification, { root: true })
+      })
+      .catch(error => {
         const notification = {
           type: 'error',
           message: 'There was a problem creating your event: ' + error.message
         }
         dispatch('notification/add', notification, { root: true })
         throw error
-      }
+      })
   },
   //using ES2015 argument destructuring to pull out { perPage, page } .
   //This is because the second argument with both mutations and actions is effectively a payload.

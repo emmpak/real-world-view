@@ -26,7 +26,7 @@ export default {
   computed: {
     // What page we're currently on
     page() {
-      return parseInt(this.$route.query.page)
+      return parseInt(this.$route.query.page) || 1
     },
     // this is now refering to the modules namespaces
     // to access the state in those modules, use the dot notation (i.e. event.event)
