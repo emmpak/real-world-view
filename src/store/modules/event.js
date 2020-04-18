@@ -5,7 +5,8 @@ export const namespaced = true
 
 export const state = {
   events: [],
-  event: {}
+  event: {},
+  perPage: 3
 }
 
 export const mutations = {
@@ -48,8 +49,8 @@ export const actions = {
   //using ES2015 argument destructuring to pull out { perPage, page } .
   //This is because the second argument with both mutations and actions is effectively a payload.
   //The payload in both Actions and Mutations can be a single variable or a single object.
-  fetchEvents({ commit, dispatch }, { perPage, page }) {
-    EventService.getEvents(perPage, page)
+  fetchEvents({ commit, dispatch, state }, { page }) {
+    return EventService.getEvents(state.perPage, page)
       .then(response => {
         commit('SET_EVENTS', response.data)
       })

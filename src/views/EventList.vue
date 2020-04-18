@@ -18,25 +18,39 @@
 <script>
 import EventCard from '@/components/EventCard.vue'
 import { mapState } from 'vuex'
+import store from '@/store/index'
+
+function getPageEvents(routeTo, next) {
+  const currentPage = parseInt(routeTo.query.page) || 1
+  store.dispatch('event/fetchEvents', { page: currentPage }).then(() => {
+    // pass the page as a prop; need to enable props in the router
+    routeTo.params.page = currentPage
+    next()
+  })
+}
 
 export default {
+  props: {
+    page: {
+      type: Number,
+      required: true
+    }
+  },
   components: {
     EventCard
   },
+  // for the first time the component is created
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    getPageEvents(routeTo, next)
+  },
+  // all subsequent updates as the component is reused when pagination
+  beforeRouteUpdate(routeTo, routeFrom, next) {
+    getPageEvents(routeTo, next)
+  },
   computed: {
-    // What page we're currently on
-    page() {
-      return parseInt(this.$route.query.page) || 1
-    },
     // this is now refering to the modules namespaces
     // to access the state in those modules, use the dot notation (i.e. event.event)
     ...mapState(['event', 'user'])
-  },
-  created() {
-    this.$store.dispatch('event/fetchEvents', {
-      perPage: 3,
-      page: this.page
-    })
   }
 }
 </script>

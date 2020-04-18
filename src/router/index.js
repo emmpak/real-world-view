@@ -4,7 +4,7 @@ import EventList from '../views/EventList.vue'
 import EventShow from '../views/EventShow.vue'
 import EventCreate from '../views/EventCreate.vue'
 import NProgress from 'nprogress'
-import store from '@/store/index.js'
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -12,7 +12,8 @@ const routes = [
   {
     path: '/',
     name: 'event-list',
-    component: EventList
+    component: EventList,
+    props: true
   },
   {
     path: '/event/:id',
