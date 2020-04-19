@@ -33,7 +33,12 @@
         type="text"
         placeholder="Add a description"
         class="field"
+        :class="{ error: $v.event.description.$error }"
+        @blur="$v.event.description.$touch()"
       />
+      <template v-if="$v.event.description.$error">
+        <p class="errorMessage">Description is required</p>
+      </template>
       <h3>Where is your event?</h3>
       <BaseInput
         label="Location"
