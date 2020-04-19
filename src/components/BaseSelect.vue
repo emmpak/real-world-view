@@ -5,7 +5,7 @@
       :value="value"
       @change="updateValue"
       v-bind="$attrs"
-      v-on="$listeners"
+      v-on="listeners"
     >
       <option
         v-for="option in options"
@@ -28,6 +28,15 @@ export default {
       required: true
     },
     value: [String, Number]
+  },
+  computed: {
+    //Because of the way JavaScript objects work, the one that is defined last will take precedence.
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: this.updateValue
+      }
+    }
   },
   methods: {
     updateValue(event) {
