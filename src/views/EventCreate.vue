@@ -41,7 +41,7 @@
         v-model="event.time"
         class="field"
       />
-      <input type="submit" class="button -fill-gradient" value="Submit" />
+      <BaseButton type="submit" buttonClass="-fill-gradient">Submit</BaseButton>
     </form>
   </div>
 </template>
@@ -51,12 +51,14 @@ import Datepicker from 'vuejs-datepicker'
 import NProgress from 'nprogress'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
+import BaseButton from '@/components/BaseButton'
 
 export default {
   components: {
     Datepicker,
     BaseInput,
-    BaseSelect
+    BaseSelect,
+    BaseButton
   },
   data() {
     const times = []
