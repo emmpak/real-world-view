@@ -46,7 +46,12 @@
         type="text"
         placeholder="Add a location"
         class="field"
+        :class="{ error: $v.event.location.$error }"
+        @blur="$v.event.location.$touch()"
       />
+      <template v-if="$v.event.location.$error">
+        <p class="errorMessage">Location is required</p>
+      </template>
       <h3>When is your event?</h3>
       <div class="field">
         <label>Date</label>
