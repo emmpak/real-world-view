@@ -21,7 +21,12 @@
         type="text"
         placeholder="Add an event title"
         class="field"
+        :class="{ error: $v.event.title.$error }"
+        @blur="$v.event.title.$touch()"
       />
+      <template v-if="$v.event.title.$error">
+        <p class="errorMessage">Title is required</p>
+      </template>
       <BaseInput
         label="Description"
         v-model="event.description"
