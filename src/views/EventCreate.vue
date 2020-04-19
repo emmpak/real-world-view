@@ -6,7 +6,14 @@
         label="Select a category"
         :options="categories"
         v-model="event.category"
+        :class="{ error: $v.event.category.$error }"
+        @blur="$v.event.category.$touch()"
       />
+      <template v-if="$v.event.category.$error">
+        <p v-if="!$v.event.category.required" class="errorMessage">
+          Category is required
+        </p>
+      </template>
       <h3>Name & describe your event</h3>
       <BaseInput
         label="Title"
@@ -40,7 +47,12 @@
         :options="times"
         v-model="event.time"
         class="field"
+        :class="{ error: $v.event.time.$error }"
+        @blur="$v.event.time.$touch()"
       />
+      <template v-if="$v.event.time.$error">
+        <p class="errorMessage">Time is required</p>
+      </template>
       <BaseButton type="submit" buttonClass="-fill-gradient">Submit</BaseButton>
     </form>
   </div>
@@ -52,6 +64,7 @@ import NProgress from 'nprogress'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 import BaseButton from '@/components/BaseButton'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   components: {
@@ -70,6 +83,17 @@ export default {
       times,
       categories: this.$store.state.categories,
       event: this.createFreshEventObject()
+    }
+  },
+  validations: {
+    event: {
+      // same as { required: required }
+      category: { required },
+      title: { required },
+      description: { required },
+      location: { required },
+      date: { required },
+      time: { required }
     }
   },
   methods: {
